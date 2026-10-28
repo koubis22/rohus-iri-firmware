@@ -1,0 +1,25 @@
+# Srážkoměr – Hallova sonda SL353HT na J7, XIAO D1 = GPIO3, aktivní LOW
+binary_sensor:
+  - platform: gpio
+    id: rain_contact
+    name: "Rain gauge contact"
+    pin:
+      number: GPIO3
+      inverted: true
+      allow_other_uses: true      # GPIO3 sdílí i pulse_counter
+
+sensor:
+  - platform: pulse_counter
+    id: rain_pulses
+    name: "Rain gauge pulses"
+    pin:
+      number: GPIO3
+      allow_other_uses: true
+    count_mode:
+      rising_edge: DISABLE
+      falling_edge: INCREMENT
+    update_interval: 60s
+    unit_of_measurement: "pulses/min"
+    total:
+      id: rain_total_pulses
+      name: "Rain gauge total pulses"

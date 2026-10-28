@@ -1,0 +1,27 @@
+# =====================================================================
+# ROHUS IRI – VÝVOJOVÝ build pro vlastní testovací kusy (ESPHome dashboard)
+# Obsahuje tajné údaje ze secrets.yaml → tento soubor se do GitHubu
+# commituje, secrets.yaml NE (je v .gitignore).
+# =====================================================================
+
+substitutions:
+  fw_version: "0.0.0-dev"
+  update_channel: beta            # vývojové kusy sledují beta kanál
+
+packages:
+  device: !include rohus-iri.yaml
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+  encryption:
+    key: !secret rohus_iri_api_key
+
+ota:
+  - platform: esphome             # OTA z dashboardu, šifrované klíčem z api:
+    encryption:
+
+logger:
+  level: DEBUG

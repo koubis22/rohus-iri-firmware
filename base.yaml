@@ -1,0 +1,43 @@
+# Základ: ESP32-C3, uvolnění resetu MCP, síť, API, status LED
+esphome:
+  on_boot:
+    priority: 1000                # uvolnit reset MCP DŘÍV, než se inicializuje MCP23017 (900)
+    then:
+      - lambda: |-
+          gpio_reset_pin(GPIO_NUM_5);
+          gpio_set_direction(GPIO_NUM_5, GPIO_MODE_OUTPUT);
+          gpio_set_level(GPIO_NUM_5, 1);
+
+esp32:
+  board: seeed_xiao_esp32c3
+  framework:
+    type: esp-idf
+
+logger:                           # USB_SERIAL_JTAG – UART0 (GPIO21) je WiFi LED
+  level: INFO
+
+api:
+  encryption: {}                  # bez pevného klíče – klíč lze nastavit za běhu
+
+safe_mode:
+
+wifi:
+  ap:
+    ssid: "Rohus-IRI-Setup"       # nastavovací AP, když WiFi není nakonfigurovaná
+
+captive_portal:
+
+improv_serial:                    # nastavení WiFi z instalační stránky (ESP Web Tools)
+
+status_led:
+  pin: GPIO21                     # D6 – modrá WiFi LED
+
+i2c:
+  sda: GPIO6                      # D4
+  scl: GPIO7                      # D5
+  frequency: 100kHz
+  scan: true
+
+mcp23017:
+  - id: mcp
+    address: 0x20                 # A0–A2 na GND

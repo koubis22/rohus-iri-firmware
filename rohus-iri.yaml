@@ -1,0 +1,27 @@
+# =====================================================================
+# ROHUS IRI – firmware řídicí jednotky závlahy (HW v0.9)
+# Zákaznický build: ŽÁDNÉ tajné údaje (WiFi přes captive portal / Improv,
+# API šifrování bez pevného klíče, aktualizace z GitHub Pages).
+# Verzi a kanál dosazuje GitHub Actions z tagu (esphome -s fw_version …).
+# =====================================================================
+
+substitutions:
+  device_name: rohus-iri
+  friendly_name: Rohus IRI
+  fw_version: "0.0.0-dev"
+  update_channel: stable          # stable | beta
+  zone_max_on: 60min              # bezpečnostní limit jedné zóny
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: false
+  project:
+    name: koubis22.rohus-iri
+    version: ${fw_version}
+
+packages:
+  base: !include packages/base.yaml
+  update: !include packages/update.yaml
+  zones: !include packages/zones.yaml
+  rain_gauge: !include packages/rain_gauge.yaml

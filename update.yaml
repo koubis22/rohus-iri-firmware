@@ -1,0 +1,13 @@
+# Aktualizace firmwaru z GitHub Pages (kanál stable / beta)
+http_request:
+  verify_ssl: true
+
+ota:
+  - platform: http_request
+
+update:
+  - platform: http_request
+    id: firmware_update
+    name: "Firmware update"
+    source: https://koubis22.github.io/rohus-iri-firmware/${update_channel}/manifest.json
+    update_interval: 6h

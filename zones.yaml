@@ -1,0 +1,202 @@
+# 12 zón: MCP23017 → BC817 → MOC3023 → Z0103MN
+# MCP pin: GPA0..7 = 0..7, GPB0..7 = 8..15
+# CH01=GPB3(11) CH02=GPB2(10) CH03=GPB1(9) CH04=GPB0(8) CH05=GPA7(7) CH06=GPA6(6)
+# CH07=GPA5(5)  CH08=GPA4(4)  CH09=GPA3(3) CH10=GPA2(2) CH11=GPA1(1) CH12=GPA0(0)
+# Bezpečnost: nanejvýš 1 zóna (interlock), po startu vše vypnuto,
+# bezpečnostní limit zone_max_on (časovač se při vypnutí zastaví, při zapnutí běží znovu od nuly).
+
+script:
+  - id: zone_01_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_01
+  - id: zone_02_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_02
+  - id: zone_03_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_03
+  - id: zone_04_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_04
+  - id: zone_05_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_05
+  - id: zone_06_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_06
+  - id: zone_07_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_07
+  - id: zone_08_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_08
+  - id: zone_09_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_09
+  - id: zone_10_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_10
+  - id: zone_11_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_11
+  - id: zone_12_limit
+    mode: restart
+    then:
+      - delay: ${zone_max_on}
+      - switch.turn_off: zone_12
+
+switch:
+  - platform: gpio
+    id: zone_01
+    name: "Zone 01"
+    pin: { mcp23xxx: mcp, number: 11, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_01_limit
+    on_turn_off:
+      - script.stop: zone_01_limit
+  - platform: gpio
+    id: zone_02
+    name: "Zone 02"
+    pin: { mcp23xxx: mcp, number: 10, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_02_limit
+    on_turn_off:
+      - script.stop: zone_02_limit
+  - platform: gpio
+    id: zone_03
+    name: "Zone 03"
+    pin: { mcp23xxx: mcp, number: 9, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_03_limit
+    on_turn_off:
+      - script.stop: zone_03_limit
+  - platform: gpio
+    id: zone_04
+    name: "Zone 04"
+    pin: { mcp23xxx: mcp, number: 8, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_04_limit
+    on_turn_off:
+      - script.stop: zone_04_limit
+  - platform: gpio
+    id: zone_05
+    name: "Zone 05"
+    pin: { mcp23xxx: mcp, number: 7, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_05_limit
+    on_turn_off:
+      - script.stop: zone_05_limit
+  - platform: gpio
+    id: zone_06
+    name: "Zone 06"
+    pin: { mcp23xxx: mcp, number: 6, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_06_limit
+    on_turn_off:
+      - script.stop: zone_06_limit
+  - platform: gpio
+    id: zone_07
+    name: "Zone 07"
+    pin: { mcp23xxx: mcp, number: 5, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_07_limit
+    on_turn_off:
+      - script.stop: zone_07_limit
+  - platform: gpio
+    id: zone_08
+    name: "Zone 08"
+    pin: { mcp23xxx: mcp, number: 4, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_08_limit
+    on_turn_off:
+      - script.stop: zone_08_limit
+  - platform: gpio
+    id: zone_09
+    name: "Zone 09"
+    pin: { mcp23xxx: mcp, number: 3, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_09_limit
+    on_turn_off:
+      - script.stop: zone_09_limit
+  - platform: gpio
+    id: zone_10
+    name: "Zone 10"
+    pin: { mcp23xxx: mcp, number: 2, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_10_limit
+    on_turn_off:
+      - script.stop: zone_10_limit
+  - platform: gpio
+    id: zone_11
+    name: "Zone 11"
+    pin: { mcp23xxx: mcp, number: 1, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_11_limit
+    on_turn_off:
+      - script.stop: zone_11_limit
+  - platform: gpio
+    id: zone_12
+    name: "Zone 12"
+    pin: { mcp23xxx: mcp, number: 0, mode: { output: true } }
+    restore_mode: ALWAYS_OFF
+    interlock: [zone_01, zone_02, zone_03, zone_04, zone_05, zone_06, zone_07, zone_08, zone_09, zone_10, zone_11, zone_12]
+    interlock_wait_time: 500ms
+    on_turn_on:
+      - script.execute: zone_12_limit
+    on_turn_off:
+      - script.stop: zone_12_limit
