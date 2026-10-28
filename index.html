@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rohus IRI – instalace firmwaru</title>
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    h1 { font-size: 1.6rem; }
+    .box { border: 1px solid #ccc; border-radius: 8px; padding: 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <h1>Rohus IRI – instalace firmwaru</h1>
+  <p>Připoj řídicí jednotku (XIAO ESP32-C3) kabelem USB-C k počítači a použij prohlížeč Chrome nebo Edge.</p>
+
+  <div class="box">
+    <h2>Stabilní verze</h2>
+    <esp-web-install-button manifest="stable/manifest.json"></esp-web-install-button>
+  </div>
+
+  <div class="box">
+    <h2>Beta (jen pro testování)</h2>
+    <esp-web-install-button manifest="beta/manifest.json"></esp-web-install-button>
+  </div>
+
+  <p>Po instalaci zadej v průvodci WiFi síť. Jednotka se pak objeví v Home Assistant
+     (Nastavení → Zařízení a služby → ESPHome). Další aktualizace probíhají z Home Assistant
+     přes entitu <em>Firmware update</em>.</p>
+</body>
+</html>

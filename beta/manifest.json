@@ -1,0 +1,23 @@
+{
+  "name": "Rohus IRI",
+  "version": "0.1.0-beta1",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-C3",
+      "parts": [
+        {
+          "path": "rohus-iri.factory.bin",
+          "offset": 0
+        }
+      ],
+      "ota": {
+        "path": "rohus-iri.ota.bin",
+        "md5": "c6765deb690855ef560624074883310e",
+        "summary": "Rohus IRI 0.1.0-beta1 (beta)",
+        "release_url": "https://github.com/koubis22/rohus-iri-firmware/releases/tag/v0.1.0-beta1"
+      }
+    }
+  ]
+}
