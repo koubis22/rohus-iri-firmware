@@ -1,0 +1,54 @@
+# Build a publikace firmwaru na GitHub Pages
+#   tag vX.Y.Z-betaN  → kanál beta
+#   tag vX.Y.Z        → kanál stable + beta (testovací kusy dostanou i stabilní verzi)
+name: Release firmware
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ESPHome
+        run: pip install "esphome==2026.10.1"
+
+      - name: Version and channels
+        id: v
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [[ "$VERSION" == *-beta* ]]; then CHANNELS="beta"; else CHANNELS="stable beta"; fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "channels=$CHANNELS" >> "$GITHUB_OUTPUT"
+
+      - name: Build per channel
+        run: |
+          for CH in ${{ steps.v.outputs.channels }}; do
+            esphome -s fw_version "${{ steps.v.outputs.version }}" -s update_channel "$CH" compile rohus-iri.yaml
+            python3 make_manifest.py .esphome/build/rohus-iri "out/$CH" "${{ steps.v.outputs.version }}" "$CH"
+            rm -rf .esphome/build/rohus-iri/.pioenvs/rohus-iri/firmware*.bin
+          done
+          cp index.html out/index.html
+
+      - name: Publish to GitHub Pages (gh-pages)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          keep_files: true
+
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: ${{ contains(steps.v.outputs.version, '-beta') }}
+          files: out/${{ contains(steps.v.outputs.version, '-beta') && 'beta' || 'stable' }}/rohus-iri.factory.bin
