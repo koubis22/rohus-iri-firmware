@@ -8,12 +8,12 @@ ESPHome firmware řídicí jednotky závlahy **Rohus irrigation controller** (12
 |---|---|
 | `rohus-iri.yaml` | **zákaznický build**: bez tajných údajů, staví ho GitHub Actions |
 | `rohus-iri-dev.yaml` | **vývojový build** pro vlastní kusy (ESPHome dashboard, WiFi a API klíč ze `secrets.yaml`) |
-| `packages/base.yaml` | ESP32-C3, reset MCP (GPIO5, priorita 1000), WiFi/captive portal/Improv, API, I²C, MCP23017 |
-| `packages/update.yaml` | aktualizace z GitHub Pages (`http_request`) |
-| `packages/zones.yaml` | 12 zón: interlock, `ALWAYS_OFF`, bezpečnostní limit `zone_max_on` |
-| `packages/rain_gauge.yaml` | srážkoměr (Hallova sonda, GPIO3, aktivní LOW) |
-| `tools/make_manifest.py` | vytvoří `manifest.json` (ESP Web Tools + OTA, MD5) |
-| `static/index.html` | instalační stránka pro první nahrání přes prohlížeč |
+| `base.yaml` | ESP32-C3, reset MCP (GPIO5, priorita 1000), WiFi/captive portal/Improv, API, I²C, MCP23017 |
+| `update.yaml` | aktualizace z GitHub Pages (`http_request`) |
+| `zones.yaml` | 12 zón: interlock, `ALWAYS_OFF`, bezpečnostní limit `zone_max_on` |
+| `rain_gauge.yaml` | srážkoměr (Hallova sonda, GPIO3, aktivní LOW) |
+| `make_manifest.py` | vytvoří `manifest.json` (ESP Web Tools + OTA, MD5) |
+| `index.html` | instalační stránka pro první nahrání přes prohlížeč |
 | `.github/workflows/release.yml` | build a publikace po tagu |
 
 ## Kanály

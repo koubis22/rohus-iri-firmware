@@ -21,7 +21,7 @@ esphome:
     version: ${fw_version}
 
 packages:
-  base: !include packages/base.yaml
-  update: !include packages/update.yaml
-  zones: !include packages/zones.yaml
-  rain_gauge: !include packages/rain_gauge.yaml
+  base: !include base.yaml
+  update: !include update.yaml
+  zones: !include zones.yaml
+  rain_gauge: !include rain_gauge.yaml
