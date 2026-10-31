@@ -7,7 +7,6 @@ ESPHome firmware řídicí jednotky závlahy **Rohus irrigation controller** (12
 | Soubor | Účel |
 |---|---|
 | `rohus-iri.yaml` | **zákaznický build**: bez tajných údajů, staví ho GitHub Actions |
-| `rohus-iri-dev.yaml` | **vývojový build** pro vlastní kusy (ESPHome dashboard, WiFi a API klíč ze `secrets.yaml`) |
 | `base.yaml` | ESP32-C3, reset MCP (GPIO5, priorita 1000), WiFi/captive portal/Improv, API, I²C, MCP23017 |
 | `update.yaml` | aktualizace z GitHub Pages (`http_request`) |
 | `zones.yaml` | 12 zón: interlock, `ALWAYS_OFF`, bezpečnostní limit `zone_max_on` |
@@ -18,28 +17,23 @@ ESPHome firmware řídicí jednotky závlahy **Rohus irrigation controller** (12
 
 ## Kanály
 
-| Tag | Kanál | Kdo ho dostane |
+| Repozitář | Kanál | Kdo |
 |---|---|---|
-| `v0.2.0-beta1` | `beta` | testovací kusy |
-| `v0.2.0` | `stable` (a zároveň `beta`) | zákazníci |
+| `koubis22/rohus-iri-firmware` (veřejný) | **stable**: tag `vX.Y.Z` → build → GitHub Pages | zákazníci, kdokoli |
+| `koubis22/rohus-iri-dev` (soukromý) | **vývoj / beta**: testování přes ESPHome dashboard | jen autor |
 
-Zařízení kontroluje `https://koubis22.github.io/rohus-iri-firmware/<kanál>/manifest.json` každých 6 h. Aktualizaci spouští uživatel **ručně** v HA (entita *Firmware update*), protože instalace restartuje jednotku a přeruší probíhající zalévání.
+Zařízení kontroluje `https://koubis22.github.io/rohus-iri-firmware/stable/manifest.json` každých 6 h. Aktualizaci spouští uživatel **ručně** v HA (entita *Firmware update*), protože instalace restartuje jednotku a přeruší probíhající zalévání.
 
-## První nastavení repozitáře
+## Licence
 
-1. Na GitHubu vytvoř **veřejný** repozitář `koubis22/rohus-iri-firmware` (prázdný).
-2. Nahraj do něj obsah této složky.
-3. **Settings → Actions → General → Workflow permissions:** *Read and write permissions*.
-4. Vytvoř první tag, např. `v0.1.0-beta1` (*Releases → Draft a new release → Choose a tag*).
-5. Po doběhnutí Actions: **Settings → Pages → Source:** *Deploy from a branch*, branch **`gh-pages`**, složka `/ (root)`.
-6. Instalační stránka: `https://koubis22.github.io/rohus-iri-firmware/`.
+[PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0): pouze nekomerční použití.
 
-## Vydání nové verze
+## Vydání produkční verze
 
-1. Uprav YAML a zapiš změnu do `CHANGELOG.md`.
-2. Otestuj lokálně přes `rohus-iri-dev.yaml`.
-3. Tag `vX.Y.Z-betaN`: testovací kusy dostanou nabídku aktualizace.
-4. Po otestování tag `vX.Y.Z`: dostanou ji zákazníci.
+1. Změny se vyvíjejí a testují v soukromém repozitáři `rohus-iri-dev`.
+2. Otestované soubory se zkopírují sem a zapíše se změna do `CHANGELOG.md`.
+3. Release s tagem `vX.Y.Z` (`https://github.com/koubis22/rohus-iri-firmware/releases/new`).
+4. GitHub Actions sestaví firmware a zveřejní ho do kanálu **stable** (~3–4 min).
 
 ## Zásady
 
