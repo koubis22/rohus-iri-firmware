@@ -1,4 +1,4 @@
-# Základ: ESP32-C3, uvolnění resetu MCP, síť, API, status LED
+# Základ: ESP32-C3, uvolnění resetu MCP, síť, API, stavová LED
 esphome:
   on_boot:
     priority: 1000                # uvolnit reset MCP DŘÍV, než se inicializuje MCP23017 (900)
@@ -29,8 +29,41 @@ captive_portal:
 
 improv_serial:                    # nastavení WiFi z instalační stránky (ESP Web Tools)
 
-status_led:
-  pin: GPIO21                     # D6 – modrá WiFi LED
+# Modrá LED (D6 = GPIO21):
+#   bliká (1 Hz)   = připojuje se (k WiFi, nebo už k WiFi a čeká na Home Assistant)
+#   svítí trvale   = WiFi i Home Assistant připojené, data běží
+#   nesvítí        = WiFi není: jednotka se nepřipojila a běží nastavovací AP
+#                    „Rohus-IRI-Setup“ (WiFi nenastavená nebo síť nedostupná)
+output:
+  - platform: gpio
+    id: wifi_led
+    pin: GPIO21
+
+globals:
+  - id: wifi_led_blink
+    type: bool
+    restore_value: false
+    initial_value: "false"
+
+interval:
+  - interval: 500ms
+    then:
+      - lambda: |-
+          auto *wifi = wifi::global_wifi_component;
+          bool wifi_ok = wifi->is_connected();
+          bool ha_ok = api::global_api_server->is_connected();
+          if (wifi_ok && ha_ok) {
+            id(wifi_led).turn_on();                    // vše připojeno
+          } else if (!wifi_ok && wifi->is_ap_active()) {
+            id(wifi_led).turn_off();                   // bez WiFi, nastavovací AP
+          } else {
+            id(wifi_led_blink) = !id(wifi_led_blink);  // připojuje se
+            if (id(wifi_led_blink)) {
+              id(wifi_led).turn_on();
+            } else {
+              id(wifi_led).turn_off();
+            }
+          }
 
 i2c:
   sda: GPIO6                      # D4
