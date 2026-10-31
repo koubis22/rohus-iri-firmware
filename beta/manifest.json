@@ -1,6 +1,6 @@
 {
   "name": "Rohus IRI",
-  "version": "0.1.0-beta1",
+  "version": "0.1.0-beta2",
   "home_assistant_domain": "esphome",
   "new_install_prompt_erase": true,
   "builds": [
@@ -14,9 +14,9 @@
       ],
       "ota": {
         "path": "rohus-iri.ota.bin",
-        "md5": "c6765deb690855ef560624074883310e",
-        "summary": "Rohus IRI 0.1.0-beta1 (beta)",
-        "release_url": "https://github.com/koubis22/rohus-iri-firmware/releases/tag/v0.1.0-beta1"
+        "md5": "1f31a10db53d91afc6eccbb67f2a4e62",
+        "summary": "Rohus IRI 0.1.0-beta2 (beta)",
+        "release_url": "https://github.com/koubis22/rohus-iri-firmware/releases/tag/v0.1.0-beta2"
       }
     }
   ]
